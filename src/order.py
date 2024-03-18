@@ -9,6 +9,10 @@ class Item:
     product: Product
     quantity: int
 
+    @property
+    def item_price(self) -> float:
+        return float(self.product.price * self.quantity)
+
 
 @dataclass
 class Order:
