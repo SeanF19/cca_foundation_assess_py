@@ -1,5 +1,17 @@
 from src.countries import Country
 from src.shipping import calculate_shipping
+from src.warehouse import Warehouse
+from src.history import SalesHistory
+from src.order import Order
+
+
+class SalesSystem:
+    def __init__(self, warehouse: Warehouse, sales_history: SalesHistory) -> None:
+        self.warehouse: Warehouse = warehouse
+        self.sales_history: SalesHistory = sales_history
+
+    def process_order(self, order: Order):
+        ...
 
 
 def print_shipping_costs(country, order_total):
