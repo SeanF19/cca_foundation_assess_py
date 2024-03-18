@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from product import Product
+from .product import Product
 
 
 @dataclass
