@@ -10,6 +10,7 @@ from src.product import (
     purple_guitar,
     black_guitar,
 )
+from src.order import Item
 
 
 @pytest.mark.parametrize(
@@ -48,3 +49,15 @@ def test_create_warehouse(entries: list[Entry], expected_stock: dict[int, int]):
 
     for product_id, stock in expected_stock.items():
         assert warehouse.catalogue[product_id].stock == stock
+
+
+def test_check_stock():
+    warehouse = Warehouse(
+        [
+            Entry(product=red_guitar, stock=5),
+            Entry(product=blue_guitar, stock=4),
+            Entry(product=green_guitar, stock=12),
+        ]
+    )
+    item = Item(product=red_guitar, quantity=3)
+    assert warehouse.check_stock(item) is True

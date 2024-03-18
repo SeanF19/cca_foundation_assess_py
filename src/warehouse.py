@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from .product import Product
+from .order import Item
 
 
 @dataclass
@@ -25,3 +26,12 @@ class Warehouse:
         else:
             catalogue_entry.stock += entry.stock
             self.catalogue[entry.product_id] = catalogue_entry
+
+    def check_stock(self, item: Item) -> bool:
+        entry = self.catalogue[item.product.id]
+        if item.quantity > entry.stock:
+            return False
+        else:
+            entry.stock -= item.quantity
+            self.catalogue[item.product.id] = entry
+            return True
