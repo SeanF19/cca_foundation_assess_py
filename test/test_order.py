@@ -11,7 +11,7 @@ from src.product import (
     black_guitar,
 )
 from src.countries import Country
-from src.order import Order
+from src.order import Order, Item
 
 
 @pytest.fixture
@@ -32,9 +32,9 @@ def uk_address() -> Address:
         (uk_address, [black_guitar]),
     ]
 )
-def test_create_order(address, items):
+def test_create_order(address: Address, items: list[Item]):
     order = Order(
-        shipping_address=uk_address,
+        shipping_address=address,
         items=items,
     )
 
