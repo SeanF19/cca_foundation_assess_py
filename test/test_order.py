@@ -41,3 +41,20 @@ def test_create_order(address: Address, items: list[Item]):
     assert order.shipping_address == address
     assert order.items == items
 
+
+@pytest.mark.parametrize(
+    "initial_items, new_item, order_items",
+    [
+        ([], black_guitar, [black_guitar]),
+        ([black_guitar], red_guitar, [black_guitar, red_guitar]),
+        ([black_guitar, red_guitar], blue_guitar, [black_guitar, red_guitar, blue_guitar]),
+    ]
+)
+def test_add_item(initial_items: list[Item], new_item: Item, order_items: list[Item]):
+    order = Order(
+        shipping_address=uk_address,
+        items=initial_items,
+    )
+    order.add_item(new_item)
+
+    assert order.items == order_items
