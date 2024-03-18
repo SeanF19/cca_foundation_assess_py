@@ -17,3 +17,6 @@ class Order:
 
     def add_item(self, item: Item) -> None:
         self.items.append(item)
+
+    def calculate_shipping(self):
+        pass
