@@ -29,3 +29,11 @@ class Warehouse:
 
     def check_stock_available(self, item: Item) -> bool:
         return item.quantity <= self.catalogue[item.product.id].stock
+
+    def remove_stock(self, item: Item) -> None:
+        if self.check_stock_available(item):
+            entry = self.catalogue[item.product.id]
+            entry.stock -= item.quantity
+            self.catalogue[item.product.id] = entry
+        else:
+            raise Exception(f"Not enough stock: {item.product}")

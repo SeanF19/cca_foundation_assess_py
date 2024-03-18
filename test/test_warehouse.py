@@ -68,3 +68,22 @@ def test_check_stock_available(item: Item, expected_response: bool):
         ]
     )
     assert warehouse.check_stock_available(item) is expected_response
+
+
+@pytest.mark.parametrize(
+    "item, expected_stock",
+    [
+        (Item(product=red_guitar, quantity=3), 2),
+        (Item(product=red_guitar, quantity=5), 0),
+    ]
+)
+def test_remove_stock(item: Item, expected_stock: int):
+    warehouse = Warehouse(
+        [
+            Entry(product=red_guitar, stock=5),
+            Entry(product=blue_guitar, stock=4),
+            Entry(product=green_guitar, stock=12),
+        ]
+    )
+    warehouse.remove_stock(item)
+    assert warehouse.catalogue[item.product.id].stock == expected_stock
