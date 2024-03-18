@@ -35,3 +35,15 @@ def test_create_order(uk_address):
 
     assert order.shipping_address == uk_address
     assert order.items == [black_guitar]
+
+
+def test_create_empty_order(uk_address):
+    items = []
+
+    order = Order(
+        shipping_address=uk_address,
+        items=items,
+    )
+
+    assert order.shipping_address == uk_address
+    assert order.items == []
