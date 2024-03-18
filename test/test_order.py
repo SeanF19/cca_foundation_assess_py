@@ -15,7 +15,7 @@ from src.order import Order
 
 
 @pytest.fixture
-def uk_address():
+def uk_address() -> Address:
     return Address(
         house="House 1",
         street="Street",
@@ -25,25 +25,19 @@ def uk_address():
     )
 
 
-def test_create_order(uk_address):
-    items = [black_guitar]
-
+@pytest.mark.parametrize(
+    "address, items",
+    [
+        (uk_address, []),
+        (uk_address, [black_guitar]),
+    ]
+)
+def test_create_order(address, items):
     order = Order(
         shipping_address=uk_address,
         items=items,
     )
 
-    assert order.shipping_address == uk_address
-    assert order.items == [black_guitar]
+    assert order.shipping_address == address
+    assert order.items == items
 
-
-def test_create_empty_order(uk_address):
-    items = []
-
-    order = Order(
-        shipping_address=uk_address,
-        items=items,
-    )
-
-    assert order.shipping_address == uk_address
-    assert order.items == []
