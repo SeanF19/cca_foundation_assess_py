@@ -27,11 +27,5 @@ class Warehouse:
             catalogue_entry.stock += entry.stock
             self.catalogue[entry.product_id] = catalogue_entry
 
-    def check_stock(self, item: Item) -> bool:
-        entry = self.catalogue[item.product.id]
-        if item.quantity > entry.stock:
-            return False
-        else:
-            entry.stock -= item.quantity
-            self.catalogue[item.product.id] = entry
-            return True
+    def check_stock_available(self, item: Item) -> bool:
+        return item.quantity <= self.catalogue[item.product.id].stock
