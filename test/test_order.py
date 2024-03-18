@@ -14,8 +14,9 @@ from src.countries import Country
 from src.order import Order
 
 
-def test_create_order():
-    address = Address(
+@pytest.fixture
+def uk_address():
+    return Address(
         house="House 1",
         street="Street",
         city="City",
@@ -23,12 +24,14 @@ def test_create_order():
         country=Country.UNITED_KINGDOM,
     )
 
+
+def test_create_order(uk_address):
     items = [black_guitar]
 
     order = Order(
-        shipping_address=address,
+        shipping_address=uk_address,
         items=items,
     )
 
-    assert order.shipping_address == address
+    assert order.shipping_address == uk_address
     assert order.items == [black_guitar]
