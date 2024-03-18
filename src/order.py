@@ -22,5 +22,9 @@ class Order:
     def add_item(self, item: Item) -> None:
         self.items.append(item)
 
+    @property
+    def order_price(self) -> float:
+        return sum(item.item_price for item in self.items)
+
     def calculate_shipping(self):
         pass
