@@ -12,14 +12,39 @@ from src.product import (
 )
 
 
-def test_create_warehouse():
-    catalogue = [
-        Entry(product=red_guitar, stock=5),
-        Entry(product=blue_guitar, stock=4),
-        Entry(product=green_guitar, stock=12),
+@pytest.mark.parametrize(
+    "entries, expected_stock",
+    [
+        (
+                [
+                    Entry(product=red_guitar, stock=5),
+                    Entry(product=blue_guitar, stock=4),
+                    Entry(product=green_guitar, stock=12),
+                ],
+                {
+                    red_guitar.id: 5,
+                    blue_guitar.id: 4,
+                    green_guitar.id: 12,
+                }
+        ),
+        (
+                [
+                    Entry(product=red_guitar, stock=5),
+                    Entry(product=blue_guitar, stock=4),
+                    Entry(product=green_guitar, stock=12),
+                    Entry(product=green_guitar, stock=3),
+                    Entry(product=red_guitar, stock=4),
+                ],
+                {
+                    red_guitar.id: 9,
+                    blue_guitar.id: 4,
+                    green_guitar.id: 15,
+                }
+        ),
     ]
-    warehouse = Warehouse(catalogue)
+)
+def test_create_warehouse(entries: list[Entry], expected_stock: dict[int, int]):
+    warehouse = Warehouse(entries)
 
-    assert warehouse.catalogue[red_guitar.id].stock == 5
-    assert warehouse.catalogue[blue_guitar.id].stock == 4
-    assert warehouse.catalogue[green_guitar.id].stock == 12
+    for product_id, stock in expected_stock.items():
+        assert warehouse.catalogue[product_id].stock == stock

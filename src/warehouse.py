@@ -13,9 +13,9 @@ class Entry:
 
 
 class Warehouse:
-    catalogue: dict[int, Entry] = {}
-
     def __init__(self, catalogue: list[Entry]):
+        self.catalogue: dict[int, Entry] = {}
+
         for entry in catalogue:
             self.add_stock(entry)
 
