@@ -52,14 +52,14 @@ def test_create_warehouse(entries: list[Entry], expected_stock: dict[int, int]):
 
 
 @pytest.mark.parametrize(
-    "item, expected_result",
+    "item, expected_response, expected_stock",
     [
-        (Item(product=red_guitar, quantity=3), True),
-        (Item(product=red_guitar, quantity=5), True),
-        (Item(product=red_guitar, quantity=6), False),
+        (Item(product=red_guitar, quantity=3), True, 2),
+        (Item(product=red_guitar, quantity=5), True, 0),
+        (Item(product=red_guitar, quantity=6), False, 5),
     ]
 )
-def test_check_stock(item: Item, expected_result: bool):
+def test_check_stock(item: Item, expected_response: bool, expected_stock: int):
     warehouse = Warehouse(
         [
             Entry(product=red_guitar, stock=5),
@@ -67,4 +67,5 @@ def test_check_stock(item: Item, expected_result: bool):
             Entry(product=green_guitar, stock=12),
         ]
     )
-    assert warehouse.check_stock(item) is expected_result
+    assert warehouse.check_stock(item) is expected_response
+    assert warehouse.catalogue[item.product.id].stock == expected_stock
